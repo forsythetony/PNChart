@@ -1,17 +1,17 @@
 //
-//  PNBarChart.h
-//  PNChartDemo
+// PNBarChart.h
+// PNChartDemo
 //
-//  Created by kevin on 11/7/13.
-//  Copyright (c) 2013年 kevinzhow. All rights reserved.
+// Created by kevin on 11/7/13.
+// Copyright (c) 2013年 kevinzhow. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#define chartMargin     10
-#define xLabelMargin    15
-#define yLabelMargin    15
-#define yLabelHeight    11
+#define chartMargin 10
+#define xLabelMargin 15
+#define yLabelMargin 15
+#define yLabelHeight 11
 
 @interface PNBarChart : UIView
 
@@ -33,10 +33,13 @@
 
 @property (nonatomic, strong) UIColor * strokeColor;
 
-@property (nonatomic, strong) NSArray * strokeColors;
-
 @property (nonatomic, strong) UIColor * barBackgroundColor;
 
 @property (nonatomic) BOOL showLabel;
+
+//Functions
+
+-(void)setAllXlabelsForBottom:(NSArray*) bottom andTop:(NSArray*) top;
+
 
 @end

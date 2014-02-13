@@ -11,10 +11,6 @@
 #import "PNChartLabel.h"
 #import "PNBar.h"
 
-@interface PNBarChart()
-- (UIColor *)barColorAtIndex:(NSUInteger)index;
-@end
-
 @implementation PNBarChart
 
 - (id)initWithFrame:(CGRect)frame
@@ -86,7 +82,7 @@
 
 -(void)strokeChart
 {
-
+    
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
     NSInteger index = 0;
 	
@@ -101,23 +97,39 @@
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight , _xLabelWidth * 0.6, chartCavanHeight)];
         }
 		bar.backgroundColor = _barBackgroundColor;
-		bar.barColor = [self barColorAtIndex:index];
+		bar.barColor = _strokeColor;
 		bar.grade = grade;
 		[self addSubview:bar];
         
         index += 1;
     }
 }
-
-#pragma mark - Class extension methods
-
-- (UIColor *)barColorAtIndex:(NSUInteger)index
+-(void)setAllXlabelsForBottom:(NSArray*) bottom andTop:(NSArray*) top
 {
-    if ([self.strokeColors count] == [self.yValues count]) {
-        return self.strokeColors[index];
-    } else {
-        return self.strokeColor;
+    _xLabels = bottom;
+    
+    if (_showLabel) {
+        _xLabelWidth = (self.frame.size.width - chartMargin*2)/[bottom count];
+        
+        for(int index = 0; index < bottom.count; index++)
+        {
+            NSString* labelText = bottom[index];
+            PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
+            [label setTextAlignment:NSTextAlignmentCenter];
+            label.text = labelText;
+            
+            
+            //Set text for the top labels
+            NSString* topLabelText = top[index];
+            PNChartLabel * topLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(index * _xLabelWidth + chartMargin, 0.0, _xLabelWidth, 20.0)];
+            [topLabel setTextAlignment:NSTextAlignmentCenter];
+            [topLabel setText:topLabelText];
+            
+            [self addSubview:topLabel];
+            [self addSubview:label];
+        }
     }
+    
 }
 
 @end
