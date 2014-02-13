@@ -61,6 +61,8 @@
         
 		_gradeLabel = [[UICountingLabel alloc] initWithFrame:CGRectMake(0, 0, 100.0 , 100.0)];
         
+        self.hasPercentage = YES;
+        
     }
     
     return self;
@@ -88,7 +90,17 @@
     [_gradeLabel setTextColor:self.labelColor];
     [_gradeLabel setCenter:CGPointMake(self.center.x,self.center.y)];
     _gradeLabel.method = UILabelCountingMethodEaseInOut;
-    _gradeLabel.format = @"%d%%";
+    
+    NSString *theFormat;
+    
+    if (self.hasPercentage) {
+        theFormat = @"%d%%";
+    }
+    else
+    {
+        theFormat = @"%d";
+    }
+    _gradeLabel.format = theFormat;
     
     
     [self addSubview:_gradeLabel];
