@@ -17,6 +17,8 @@
 
 @implementation PNCircleChart
 
+@synthesize fontSize;
+
 - (UIColor *)labelColor
 {
     if (!_labelColor) {
@@ -44,7 +46,7 @@
         _circle.fillColor     = [UIColor clearColor].CGColor;
         _circle.lineWidth     = [_lineWidth floatValue];
         _circle.zPosition     = 1;
-
+        
         _circleBG             = [CAShapeLayer layer];
         _circleBG.path        = circlePath.CGPath;
         _circleBG.lineCap     = kCALineCapRound;
@@ -56,8 +58,8 @@
         
         [self.layer addSublayer:_circle];
         [self.layer addSublayer:_circleBG];
-
-		_gradeLabel = [[UICountingLabel alloc] initWithFrame:CGRectMake(0, 0, 50.0, 50.0)];
+        
+		_gradeLabel = [[UICountingLabel alloc] initWithFrame:CGRectMake(0, 0, 100.0 , 100.0)];
         
     }
     
@@ -67,15 +69,27 @@
 
 -(void)strokeChart
 {
+    //  Find font size
+    
+    float floatFontSize;
+    
+    if (fontSize) {
+        floatFontSize = [fontSize floatValue];
+    }
+    else{
+        floatFontSize = 13.0f;
+    }
+    
+    
     //Add count label
     
     [_gradeLabel setTextAlignment:NSTextAlignmentCenter];
-    [_gradeLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
+    [_gradeLabel setFont:[UIFont boldSystemFontOfSize:floatFontSize]];
     [_gradeLabel setTextColor:self.labelColor];
     [_gradeLabel setCenter:CGPointMake(self.center.x,self.center.y)];
     _gradeLabel.method = UILabelCountingMethodEaseInOut;
     _gradeLabel.format = @"%d%%";
-   
+    
     
     [self addSubview:_gradeLabel];
     
@@ -96,7 +110,7 @@
     _circle.strokeEnd   = [_current floatValue]/[_total floatValue];
     
     [_gradeLabel countFrom:0 to:[_current floatValue]/[_total floatValue]*100 withDuration:1.0];
-   
+    
 }
 
 @end
