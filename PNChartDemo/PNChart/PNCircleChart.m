@@ -121,7 +121,14 @@
     [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     _circle.strokeEnd   = [_current floatValue]/[_total floatValue];
     
-    [_gradeLabel countFrom:0 to:[_current floatValue]/[_total floatValue]*100 withDuration:1.0];
+    if (self.hasPercentage) {
+        [_gradeLabel countFrom:0 to:[_current floatValue]/[_total floatValue]*100 withDuration:1.0];
+    }
+    else
+    {
+        [_gradeLabel countFrom:0 to:[_current floatValue] withDuration:1.0];
+    }
+    
     
 }
 
