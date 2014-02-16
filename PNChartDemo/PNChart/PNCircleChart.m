@@ -131,5 +131,73 @@
     
     
 }
+-(void)strokeChartToValue:(NSNumber *)newCurrent
+{
+    //  Find font size
+    
+    float floatFontSize;
+    
+    if (fontSize) {
+        floatFontSize = [fontSize floatValue];
+    }
+    else{
+        floatFontSize = 13.0f;
+    }
+    
+    
+    //Add count label
+    
+    [_gradeLabel setTextAlignment:NSTextAlignmentCenter];
+    [_gradeLabel setFont:[UIFont boldSystemFontOfSize:floatFontSize]];
+    [_gradeLabel setTextColor:self.labelColor];
+    [_gradeLabel setCenter:CGPointMake(self.center.x,self.center.y)];
+    _gradeLabel.method = UILabelCountingMethodEaseInOut;
+    
+    NSString *theFormat;
+    
+    if (self.hasPercentage) {
+        theFormat = @"%d%%";
+    }
+    else
+    {
+        theFormat = @"%d";
+    }
+    _gradeLabel.format = theFormat;
+    
+    
+    [self addSubview:_gradeLabel];
+    
+    //Add circle params
+    
+    _circle.lineWidth   = [_lineWidth floatValue];
+    _circleBG.lineWidth = [_lineWidth floatValue];
+    _circleBG.strokeEnd = 1.0;
+    _circle.strokeColor = _strokeColor.CGColor;
+    
+    //Add Animation
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    
+    pathAnimation.duration = 1.0;
+    
+    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    pathAnimation.fromValue = [NSNumber numberWithFloat:[_current floatValue]/[_total floatValue]];
+    
+    pathAnimation.toValue = [NSNumber numberWithFloat:[newCurrent floatValue]/[_total floatValue]];
+    
+    //[_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    
+    _circle.strokeEnd   = [newCurrent floatValue]/[_total floatValue];
+    
+    if (self.hasPercentage) {
+        [_gradeLabel countFrom:0 to:[_current floatValue]/[_total floatValue]*100 withDuration:1.0];
+    }
+    else
+    {
+        [_gradeLabel countFrom:0 to:[_current floatValue] withDuration:1.0];
+    }
+    
+    self.current = newCurrent;
+}
 
 @end
