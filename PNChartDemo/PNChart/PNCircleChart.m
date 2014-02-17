@@ -190,11 +190,11 @@
     _circle.strokeEnd   = [newCurrent floatValue]/[_total floatValue];
     
     if (self.hasPercentage) {
-        [_gradeLabel countFrom:0 to:[_current floatValue]/[_total floatValue]*100 withDuration:1.0];
+        [_gradeLabel countFrom:[_current floatValue] to:[newCurrent floatValue]/[_total floatValue]*100 withDuration:1.0];
     }
     else
     {
-        [_gradeLabel countFrom:0 to:[_current floatValue] withDuration:1.0];
+        [_gradeLabel countFrom:[_current floatValue] to:[newCurrent floatValue] withDuration:1.0];
     }
     
     self.current = newCurrent;
