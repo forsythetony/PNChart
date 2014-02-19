@@ -65,7 +65,7 @@
 		PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
 		[label setTextAlignment:NSTextAlignmentRight];
 		label.text = [NSString stringWithFormat:@"%1.f",_yValueMin + (yStep * index)];
-		[self addSubview:label];
+		//[self addSubview:label];
         index +=1 ;
 		num -= 1;
 	}
@@ -85,7 +85,7 @@
             PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(2*_chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2), _chartMargin + _chartCavanHeight, _xLabelWidth, _chartMargin)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
-            [self addSubview:label];
+            // [self addSubview:label];
         }
         
     }else{
@@ -146,10 +146,9 @@
         UIBezierPath * progressline = [UIBezierPath bezierPath];
         [_chartPath addObject:progressline];
         
-
         
         if(!_showLabel){
-            _chartCavanHeight = self.frame.size.height - 2*_yLabelHeight;
+            _chartCavanHeight = self.frame.size.height - 1.0*_yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
             _chartMargin = 0.0;
             _xLabelWidth = (_chartCavanWidth / ([_xLabels count] -1));
@@ -164,12 +163,13 @@
         
         
         for (NSUInteger i = 0; i < chartData.itemCount; i++) {
-
+            
             yValue = chartData.getData(i).y;
             
             innerGrade = (yValue - _yValueMin) / ( _yValueMax - _yValueMin);
             
             point = CGPointMake(2*_chartMargin +  (i * _xLabelWidth), _chartCavanHeight - (innerGrade * _chartCavanHeight) + ( _yLabelHeight /2 ));
+            
             
             if (i != 0) {
                 [progressline addLineToPoint:point];
@@ -271,8 +271,8 @@
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
     
-    _chartMargin = 30;
-
+    _chartMargin = 0.0;
+    
     _chartCavanWidth = self.frame.size.width - _chartMargin *2;
     _chartCavanHeight = self.frame.size.height - _chartMargin * 2;
 }
